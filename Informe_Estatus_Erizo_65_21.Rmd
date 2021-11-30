@@ -417,7 +417,7 @@ p2 <- ggplot()  +
   scale_x_continuous(breaks = seq(from = 1995, to = 2021, by = 1))+
   theme(axis.text.x = element_text(angle = 90, hjust = 2))+
   theme_bw()+
-  xlim(1960,2021)+
+  xlim(1995,2021)+
   ylim(50, 200)
 p2
 
@@ -586,9 +586,9 @@ qqnorm(Res_Desemb,ylim=c(-0.01,0.01)); qqline(Res_Desemb, col = 2)
 
 ```{r Fig_residuosCompXN,warning=F, include=T, message=F, echo=FALSE,fig.height=8,fig.width=6,fig.align="center",fig.path=dir.Fig,dev=fig, fig.cap="**Figura x**. Residuos de la proporción de tallas de erizo de la zona X Norte"}
 
-ppredF <-rep1$ppred[1:26,]
-anos   <-yrs[1:26]
-obsF   <-rep1$pobs[1:26,]
+ppredF <-rep1$ppred[37:62,]
+anos   <-yrs[37:62]
+obsF   <-rep1$pobs[37:62,]
 preF   <-ppredF
 
 resF <-obsF-preF
@@ -605,7 +605,7 @@ fig1<-image(age,anos,t(est),col=0,yaxt="n",xlab="",ylab="")
 ee  <-dim(est)
 for(n in 1:ee[1]){for(m in 1:ee[2]){vol<-est[n,m]
 if(is.na(vol)==FALSE){
-	if(vol>0){points(age[m],anos[n],pch=19,cex=2.82*sqrt(vol),col=2)}
+	if(vol>0){points(age[m],anos[n],pch=19,cex=2.82*sqrt(vol),col=5)}
 	if(vol<0){points(age[m],anos[n],pch=19,cex=2.82*sqrt(vol*-1),col=1)}
 }}}
 
@@ -1294,9 +1294,9 @@ qqnorm(Res_Desemb,ylim=c(-0.01,0.01)); qqline(Res_Desemb, col = 2)
 
 ```{r Fig_residuosCompXS,warning=F, include=T, message=F, echo=FALSE,fig.height=8,fig.width=6,fig.align="center",fig.path=dir.Fig,dev=fig, fig.cap="**Figura x**. Residuos de la proporción de tallas de erizo de la zona X sur"}
 
-ppredF <-rep2$ppred[1:26,]
-anos   <-yrs[1:26]
-obsF   <-rep2$pobs[1:26,]
+ppredF <-rep2$ppred[37:62,]
+anos   <-yrs[37:62]
+obsF   <-rep2$pobs[37:62,]
 preF   <-ppredF
 
 resF <-obsF-preF
@@ -1313,7 +1313,7 @@ fig1<-image(age,anos,t(est),col=0,yaxt="n",xlab="",ylab="")
 ee  <-dim(est)
 for(n in 1:ee[1]){for(m in 1:ee[2]){vol<-est[n,m]
 if(is.na(vol)==FALSE){
-	if(vol>0){points(age[m],anos[n],pch=19,cex=2.82*sqrt(vol),col=2)}
+	if(vol>0){points(age[m],anos[n],pch=19,cex=2.82*sqrt(vol),col=7)}
 	if(vol<0){points(age[m],anos[n],pch=19,cex=2.82*sqrt(vol*-1),col="grey78")}
 }}}
 
@@ -1593,7 +1593,7 @@ BT <- ggplot() +
       labs(x = '', y = 'Biomasa total',colour='Mortalidad natural')  +
       scale_x_continuous(breaks = seq(from = 1960, to = 2021, by = 10)) +
       scale_fill_manual("IC",values=c("grey45"))+
-      scale_color_viridis_d(option = "B",breaks=paste("y",seq(1,4,1),sep=""),
+      scale_color_viridis_d(option = "A",breaks=paste("y",seq(1,4,1),sep=""),
                             labels=c(0.2, 0.21, 0.22, 0.28))+
       theme_bw(base_size=8) +
       ggtitle('Sensibilidad a la Mortalidad natural')+
@@ -1607,7 +1607,7 @@ BD <- ggplot() +
        labs(x = '', y = 'Biomasa desovante',colour='Mortalidad natural')  +
       scale_x_continuous(breaks = seq(from = 1960, to = 2021, by = 10)) +
       scale_fill_manual("",values=c("grey45"))+
-      scale_color_viridis_d(option = "B",breaks=paste("y",seq(1,4,1),sep=""),
+      scale_color_viridis_d(option = "A",breaks=paste("y",seq(1,4,1),sep=""),
                              labels=c(0.2, 0.21, 0.22, 0.28))+
       theme_bw(base_size=8) +
       ggtitle('')+
@@ -1622,7 +1622,7 @@ Ft <- ggplot() +
       #scale_color_brewer(palette = "Greens")+
       scale_x_continuous(breaks = seq(from = 1960, to = 2021, by = 10)) +
       scale_fill_manual("",values=c("grey45"))+
-      scale_color_viridis_d(option = "B",breaks=paste("y",seq(1,4,1),sep=""),
+      scale_color_viridis_d(option = "A",breaks=paste("y",seq(1,4,1),sep=""),
                              labels=c(0.2, 0.21, 0.22, 0.28))+
       theme_bw(base_size=8) +
       ggtitle('')+
@@ -1716,7 +1716,7 @@ BT/BD/Ft
 
 Rt <- ggplot(VarPob) + 
     geom_line(aes(y=Rt2, x=x, colour = "Estimado Zona X sur"), size=0.5)+
-    geom_ribbon(aes(ymin=lowerRt2, ymax=upperRt2, x=x, fill = "Intervalo de confianza asintótico"), alpha = 0.2)+
+    geom_ribbon(aes(ymin=lowerRt2, ymax=upperRt2, x=x, fill = "Intervalo de confianza asintótico"), alpha = 0.2, fill=3)+
     labs(x = '', y = 'Reclutamientos',colour='Asesorías')  +
     scale_x_continuous(breaks = seq(from = 1960, to = 2021, by = 5)) +
     scale_colour_manual("",values=c("black"))+
@@ -1727,7 +1727,7 @@ Rt <- ggplot(VarPob) +
 
 BT <- ggplot(VarPob) + 
      geom_line(aes(y=BT2, x=x, colour = "Estimado Zona X sur"), size=0.5)+
-     geom_ribbon(aes(ymin=lowerBT2, ymax=upperBT2, x=x, fill = ""), alpha = 0.2)+
+     geom_ribbon(aes(ymin=lowerBT2, ymax=upperBT2, x=x, fill = ""), alpha = 0.2, fill=5)+
     labs(x = '', y = 'Biomasa total',colour='Asesorías')  +
     scale_x_continuous(breaks = seq(from = 1960, to = 2021, by = 5)) +
     scale_colour_manual("",values=c("black"))+
@@ -1738,7 +1738,7 @@ BT <- ggplot(VarPob) +
 
 BD <- ggplot(VarPob) + 
      geom_line(aes(y=BD2, x=x, colour = "Estimado Zona X sur"), size=0.5)+
-     geom_ribbon(aes(ymin=lowerBD2, ymax=upperBD2, x=x, fill = "Intervalo de confianza asintótico"), alpha = 0.2)+
+     geom_ribbon(aes(ymin=lowerBD2, ymax=upperBD2, x=x, fill = "Intervalo de confianza asintótico"), alpha = 0.2, fill=6)+
     labs(x = '', y = 'Biomasa desovante',colour='Asesorías')  +
     scale_x_continuous(breaks = seq(from = 1960, to = 2021, by = 5)) +
     scale_colour_manual("",values=c("black"))+
@@ -1749,7 +1749,7 @@ BD <- ggplot(VarPob) +
 
 Ft <- ggplot(VarPob) + 
      geom_line(aes(y=Ft2, x=x, colour = "Estimado Zona X sur"), size=0.5)+
-    geom_ribbon(aes(ymin=lowerFt2, ymax=upperFt2, x=x, fill = ""), alpha = 0.2)+
+    geom_ribbon(aes(ymin=lowerFt2, ymax=upperFt2, x=x, fill = ""), alpha = 0.2, fill=7)+
     labs(x = '', y = 'Mortalidad por pesca',colour='Asesorías')  +
     scale_x_continuous(breaks = seq(from = 1960, to = 2021, by = 5)) +
     scale_colour_manual("",values=c("black"))+
