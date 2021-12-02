@@ -225,8 +225,8 @@ Verosimilitud("MAETXN",dir.0,dir.1,"/VerosimilitudXN",logRo,priorRo)
 
 ```{r VerosimilitudXS, echo=F, warning=F,eval=F,include=F}
 source(paste(dir.fun,"Fn_Verosimilitud.R",sep=""))
-logRo    <- 4.57233200892
-priorRo <- seq(3,6.5,0.1)
+logRo    <- 4.58827404901
+priorRo <- seq(4,9,0.2)
 Verosimilitud("MAETXS",dir.0,dir.1,"/VerosimilitudXS",logRo,priorRo) 
 
 ```
@@ -234,8 +234,8 @@ Verosimilitud("MAETXS",dir.0,dir.1,"/VerosimilitudXS",logRo,priorRo)
 
 ```{r VerosimilitudXI, echo=F, warning=F,eval=F,include=F}
 source(paste(dir.fun,"Fn_Verosimilitud.R",sep=""))
-logRo    <- 4.82869986656
-priorRo <- seq(4.75,4.85,0.005)
+logRo    <- 4.89072430364
+priorRo <- seq(4,6,0.1)
 Verosimilitud("MAETXI",dir.0,dir.1,"/VerosimilitudXI",logRo,priorRo) 
 
 ```
@@ -277,7 +277,7 @@ rango_Loo   <-seq(128, 136, 0.5)
 Rango_Loo("MAETXI",dir.0,dir.1,"/RangoLoo_XI",rango_Loo) 
 ```
 
-```{r funcionPbr_Xnorte,echo=FALSE, message=FALSE, warning=FALSE, include=F,eval=F}
+```{r funcionPbr_Xnorte,echo=FALSE, message=FALSE, warning=FALSE, include=F,eval=T}
 
 source(paste(dir.fun,"Fn_Frms.R",sep=""))
   dir.pbr     <-paste(dir.0,"/PBR_Analisys",sep="")
@@ -316,7 +316,7 @@ Dat$sel_f <- rep1$Sel_f
   
 ```
 
-```{r funcionPbr_Xsur,echo=FALSE, message=FALSE, warning=FALSE, include=F,eval=FALSE}
+```{r funcionPbr_Xsur,echo=FALSE, message=FALSE, warning=FALSE, include=F,eval=T}
 
 source(paste(dir.fun,"Fn_Frms.R",sep=""))
   dir.pbr     <-paste(dir.0,"/PBR_Analisys",sep="")
@@ -354,7 +354,7 @@ Dat$sel_f <- rep2$Sel_f
   
 ```
 
-```{r funcionPbr_XI,echo=FALSE, message=FALSE, warning=FALSE, include=F,eval=FALSE}
+```{r funcionPbr_XI,echo=FALSE, message=FALSE, warning=FALSE, include=F,eval=T}
 
  source(paste(dir.fun,"Fn_Frms.R",sep=""))
   dir.pbr     <-paste(dir.0,"/PBR_Analisys",sep="")
@@ -1390,7 +1390,7 @@ par(mfrow=c(1,1),mar=c(4,4,1,1))
 
 ## 1.7. Puntos Biológicos de Referencia
 
-```{r Fig_PBRsXN, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Puntos Biológicos de referencia de Erizo zona X Norte", fig.height=5, fig.width=5,eval=FALSE}
+```{r Fig_PBRsXN, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Puntos Biológicos de referencia de Erizo zona X Norte", fig.height=4.5, fig.width=4.5,eval=T}
 
 Frms<-rep_pbr1$`F(%SSBo)`[2,]
 BDo<-rep1$BDo
@@ -1432,67 +1432,26 @@ Ft <- ggplot(VarPob) +
 
 ## 1.8. Estatus del erizo de la zona norte de la Región de Los Lagos
 
-```{r Fig_DiagramaFaseXN, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Diagrama de fase propuesto para erizo zona X Norte. En el eje Y se presenta la razón entre el nivel de reducción de la biomasa desovante (BD) estimada en la evaluación de stock respecto de la biomasa objetivo ($BD_{RMS}$), la cual define el estatus de sub-explotación, plena explotación, sobreexplotación y colapso. El eje X representa la razón entre la mortalidad por pesca proveniente de la evaluación respecto del F40% considerado objetivo para alcanzar el RMS (proxy), sobre la línea continua ($F/F_{RMS}>1$), se define la condición de sobrepesca.", fig.height=8, fig.width=10,eval=FALSE}
+```{r Fig_DiagramaFaseXN, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Diagrama de fase propuesto para erizo zona X Norte",fig.height=4.5, fig.width=4.5,eval=T}
+source(paste(dir.fun,"Fn_DiagramaFase.R",sep=""))
 
-Zona<- "Erizo Zona X Norte"
-Frms<-rep_pbr1$`F(%SSBo)`[2,]
-BDo<-rep1$BDo
-BDrms<-BDo*0.4
-BDlim<-BDrms/2
+name0<-"Erizo Zona X Norte"
+years0<-rep1$years
+nyears0<-length(years0)
+SSBt0         <- subset(std1,name=="BD")$value
+SSBt0std      <- subset(std1,name=="BD")$std
+Ft0           <- subset(std1,name=="log_F")$value
+Ft0std        <- subset(std1,name=="log_F")$std
+BDo0    <- rep1$BDo
+BRMS0   <- BDo*0.4
+FRMS0   <- rep_pbr1$`F(%SSBo)`[2,]
 
+DiagramaFase(name0,FRMS0,BRMS0,SSBt0,SSBt0std,Ft0,Ft0std,years0,col_lastyear="blue",ylims=6,xlims=3)
 
-bd_bdrms<-(VarPob$BD1/BDrms) 
-f_frms<-(VarPob$Ft1/Frms)
-
-Qmult<- -qnorm((1-(80/100))/2.0)
-
-sb95min <-BD1[nyears]-Qmult*BD1std[nyears]/BDrms
-sb95max <-BD1[nyears]+Qmult*BD1std[nyears]/BDrms
-F95min  <- exp(Ft1[nyears])*exp(-Qmult*Ft1std[nyears])/Frms
-F95max  <-exp(Ft1[nyears])*exp(Qmult*Ft1std[nyears])/Frms
-
-x.bottom.left <- c(1, 0, 1, 1)
-x.top.left    <- c(1, 0, 1, 1)
-x.bottom.right<- c(0, 1, 3, 3)
-x.top.right   <- c(0, 1, 3, 3)
-
-y.bottom.left <- c(0, 1, 0, 1)
-y.bottom.right<- c(0, 1, 0, 1)
-y.top.left    <- c( 1, 10,  1, 10)
-y.top.right   <- c( 1, 10,  1, 10)
-
-# declare a vector of values
-values <- c("1_Sobreexplotación","2_Sobreexplotación","3_Subexplotación","4_Sobrepesca")
-# create a data frame containing values and ids
-values.df <- data.frame(value = values, id = c(1, 2, 3, 4))
-# create the x and y vectors containing the coordinates of each polygon in the correct order
-x.coords <- unlist(lapply(1:length(x.bottom.left), function(i) {
-    c(x.bottom.left[i], x.bottom.right[i], x.top.right[i], x.top.left[i])
-}))
-y.coords <- unlist(lapply(1:length(y.bottom.left), function(i) {
-    c(y.bottom.left[i], y.bottom.right[i], y.top.right[i], y.top.left[i])
-}))
-# create a coordinates data frame
-coords.df <- data.frame(id = rep(c(1, 2, 3, 4), each = 4), x = x.coords, y = y.coords)
-# merge the data frames
-data.df <- merge(values.df, coords.df, by = c("id"))
-
-# plot
-ggplot() + 
-  geom_polygon(data = data.df, aes(x = x, y = y, fill = factor(value), group = id,alpha = 0.9)) +
-scale_fill_grey(start=0.4, end=0.9) +
-geom_hline(yintercept = 1) + geom_vline(xintercept = c(0.5,1),colour=c(2,1)) +
-annotate("text", x=c(0.5,1,3.07), y=c(10.07,10.07,1.07),
-              label=c(expression("BD"[LIM]),expression("BD"[RMS]),expression("F"[RMS]))) +
-  geom_path(aes(x=bd_bdrms,y=f_frms)) +
-  geom_point(aes(x=bd_bdrms,y=f_frms),shape = 21, colour = "black", fill = "white", size = 2.5, stroke = 1)+
-  geom_point(aes(x=bd_bdrms[c(nyears,1)],y=f_frms[c(nyears,1)]),shape =c(21,21), colour = c("blue","green"), fill =c("blue4","green4"), size =c(4,4), stroke =c(1,1)) +
-   geom_text(aes(x=bd_bdrms,y=f_frms,label=years),angle = 45,nudge_y = 0.15,size = 3) +
-labs(x = expression("BD/BD"[RMS]), y = expression("F/F"[RMS]),fill='Estados de explotación') +
-   theme_bw(base_size=15) +
-  ggtitle(Zona)
 
 ```
+
+
 
 \pagebreak
 
@@ -1918,7 +1877,7 @@ source(paste(dir.fun,"functions.R",sep=""))
 dir       <-paste(dir.0,"/VerosimilitudXS",sep="")
 setwd(dir)
 
-casos <-36
+casos <-26
 logRo    <- rep(0,casos)
 likeval  <- matrix(ncol=10,nrow=casos)
 slikeval <- matrix(ncol=11,nrow=casos)
@@ -1947,7 +1906,7 @@ fig1<-ggplot() +
       geom_line(aes(x = TLk2$Ro, y = TLk2$Total,colour=names[12])) +
       geom_hline(yintercept = 2,colour='black',lty=2) +
       scale_colour_manual("",values=c("green","blue","red","black"))+
-      coord_cartesian(xlim = c(0.5,200), ylim = c(0, 3))+
+      coord_cartesian(xlim = c(0.5,3000), ylim = c(0, 3))+
       xlab("Ro") + 
       ylab("L-min(L)") + 
      ggtitle("Erizo Zona X Sur - Modelo base")+
@@ -2191,7 +2150,7 @@ par(mfrow=c(1,1),mar=c(4,4,1,1))
 
 ## 2.7. Puntos Biológicos de Referencia
 
-```{r Fig_PBRsXS, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Puntos Biológicos de referencia de Erizo zona X Sur", fig.height=7, fig.width=6,eval=F}
+```{r Fig_PBRsXS, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Puntos Biológicos de referencia de Erizo zona X Sur", fig.height=4.5, fig.width=4.5,eval=T}
 
 Frms<-rep_pbr2$`F(%SSBo)`[2,]
 BDo<-rep2$BDo
@@ -2200,7 +2159,7 @@ BDlim<-BDrms/2
 
 BD <- ggplot(VarPob) + 
      geom_line(aes(y=BD2, x=x, colour = "Estimado Zona X sur"), size=0.5)+
-     geom_ribbon(aes(ymin=lowerBD2, ymax=upperBD2, x=x, fill = "Intervalo de confianza asintótico"), alpha = 0.2)+
+     geom_ribbon(aes(ymin=lowerBD2, ymax=upperBD2, x=x, fill = "IC"), alpha = 0.2)+
    geom_hline(yintercept = c(BDrms,BDlim,BDo),colour=c('green3','red','blue'))+
   annotate("text", x=c(rep(2012,3)), y=c(BDrms,BDlim,BDo),
               label=c(expression("BD"[RMS]),expression("BD"[LIM]),expression("BD"[0]))) +
@@ -2236,58 +2195,24 @@ Ft <- ggplot(VarPob) +
 
 ## 2.8. Estatus del erizo de la zona sur de la Región de Los Lagos
 
-```{r Fig_DiagramaFaseXS, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Diagrama de fase Erizo zona X Sur", fig.height=8, fig.width=10,eval=FALSE}
-Zona<- "Erizo Zona X Sur"
-Frms<-rep_pbr2$`F(%SSBo)`[2,]
-BDo<-rep2$BDo
-BDrms<-BDo*0.4
-BDlim<-BDrms/2
+```{r Fig_DiagramaFaseXS, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Diagrama de fase propuesto para erizo zona X Sur",fig.height=4.5, fig.width=4.5,eval=T}
 
-bd_bdrms<-VarPob$BD2/BDrms
-f_frms<-VarPob$Ft2/Frms
+source(paste(dir.fun,"Fn_DiagramaFase.R",sep=""))
 
-x.bottom.left <- c(1, 0, 1, 1)
-x.top.left    <- c(1, 0, 1, 1)
-x.bottom.right<- c(0, 1, 3, 3)
-x.top.right   <- c(0, 1, 3, 3)
+name0<-"Erizo Zona X Sur"
+years0<-rep2$years
+nyears0<-length(years0)
 
-y.bottom.left <- c(0, 1, 0, 1)
-y.bottom.right<- c(0, 1, 0, 1)
-y.top.left    <- c( 1, 10,  1, 10)
-y.top.right   <- c( 1, 10,  1, 10)
+SSBt0         <- subset(std2,name=="BD")$value
+SSBt0std      <- subset(std2,name=="BD")$std
+Ft0           <- subset(std2,name=="log_F")$value
+Ft0std        <- subset(std2,name=="log_F")$std
+BDo0    <- rep2$BDo
+BRMS0   <- BDo*0.4
+FRMS0   <- rep_pbr2$`F(%SSBo)`[2,]
 
-# declare a vector of values
-values <- c("1_Sobreexplotación","2_Sobreexplotación","3_Subexplotación","4_Sobrepesca")
-# create a data frame containing values and ids
-values.df <- data.frame(value = values, id = c(1, 2, 3, 4))
-# create the x and y vectors containing the coordinates of each polygon in the correct order
-x.coords <- unlist(lapply(1:length(x.bottom.left), function(i) {
-    c(x.bottom.left[i], x.bottom.right[i], x.top.right[i], x.top.left[i])
-}))
-y.coords <- unlist(lapply(1:length(y.bottom.left), function(i) {
-    c(y.bottom.left[i], y.bottom.right[i], y.top.right[i], y.top.left[i])
-}))
-# create a coordinates data frame
-coords.df <- data.frame(id = rep(c(1, 2, 3, 4), each = 4), x = x.coords, y = y.coords)
-# merge the data frames
-data.df <- merge(values.df, coords.df, by = c("id"))
+DiagramaFase(name0,FRMS0,BRMS0,SSBt0,SSBt0std,Ft0,Ft0std,years0,col_lastyear="blue",ylims=4,xlims=3)
 
-
-
-# plot
-ggplot() + 
-  geom_polygon(data = data.df, aes(x = x, y = y, fill = factor(value), group = id,alpha = 0.9)) +
-scale_fill_grey(start=0.4, end=0.9) +
-geom_hline(yintercept = 1) + geom_vline(xintercept = c(0.5,1),colour=c(2,1)) +
-annotate("text", x=c(0.5,1,3.07), y=c(10.07,10.07,1.07),
-              label=c(expression("BD"[LIM]),expression("BD"[RMS]),expression("F"[RMS]))) +
-  geom_path(aes(x=bd_bdrms,y=f_frms)) +
-  geom_point(aes(x=bd_bdrms,y=f_frms),shape = 21, colour = "black", fill = "white", size = 2.5, stroke = 1)+
-  geom_point(aes(x=bd_bdrms[c(nyears,1)],y=f_frms[c(nyears,1)]),shape =c(21,21), colour = c("blue","green"), fill =c("blue4","green4"), size =c(4,4), stroke =c(1,1)) +
-   geom_text(aes(x=bd_bdrms,y=f_frms,label=years),angle = 45,nudge_y = 0.15,size = 3) +
-labs(x = expression("BD/BD"[RMS]), y = expression("F/F"[RMS]),fill='Estados de explotación') +
-   theme_bw(base_size=15) +
-  ggtitle(Zona)
 
 ```
 
@@ -2738,7 +2663,7 @@ fig1<-ggplot() +
       geom_line(aes(x = TLk2$Ro, y = TLk2$Total,colour=names[7])) +
       geom_hline(yintercept = 2,colour='black',lty=2) +
       scale_colour_manual("",values=c("green","blue","red","black"))+
-      coord_cartesian(xlim = c(0.5,200), ylim = c(0, 3))+
+      coord_cartesian(xlim = c(55,250), ylim = c(0, 3))+
       xlab("Ro") + 
       ylab("L-min(L)") + 
      ggtitle("Erizo Zona XI - Modelo base")+
@@ -2979,7 +2904,7 @@ par(mfrow=c(1,1),mar=c(4,4,1,1))
 
 ## 3.7. Puntos Biológicos de Referencia de erizo zona XI
 
-```{r  Fig_PBRsXI, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Puntos Biológicos de referencia de Erizo zona XI", fig.height=7, fig.width=6,eval=F}
+```{r  Fig_PBRsXI, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Puntos Biológicos de referencia de Erizo zona XI", fig.height=4.5, fig.width=4.5,eval=T}
 
 Frms<-rep_pbr3$`F(%SSBo)`[2,]
 BDo<-rep3$BDo
@@ -3023,58 +2948,24 @@ BD/Ft
 
 ## 3.8. Estatus del erizo de la Región de Aysén
 
-```{r Fig_DiagramaFaseXI, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Diagrama de fase Erizo zona XI", fig.height=8, fig.width=10,eval=F}
-Zona<- "Erizo Zona XI"
-Frms<-rep_pbr3$`F(%SSBo)`[2,]
-BDo<-rep3$BDo
-BDrms<-BDo*0.4
-BDlim<-BDrms/2
+```{r Fig_DiagramaFaseXI, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Diagrama de fase propuesto para erizo zona XI",fig.height=4.5, fig.width=4.5,eval=T}
 
-bd_bdrms<-VarPob$BD3/BDrms
-f_frms<-VarPob$Ft3/Frms
+source(paste(dir.fun,"Fn_DiagramaFase.R",sep=""))
 
-x.bottom.left <- c(1, 0, 1, 1)
-x.top.left    <- c(1, 0, 1, 1)
-x.bottom.right<- c(0, 1, 3, 3)
-x.top.right   <- c(0, 1, 3, 3)
+name0<-"Erizo Zona XI"
+years0<-rep3$years
+nyears0<-length(years0)
 
-y.bottom.left <- c(0, 1, 0, 1)
-y.bottom.right<- c(0, 1, 0, 1)
-y.top.left    <- c( 1, 10,  1, 10)
-y.top.right   <- c( 1, 10,  1, 10)
+SSBt0         <- subset(std3,name=="BD")$value
+SSBt0std      <- subset(std3,name=="BD")$std
+Ft0           <- subset(std3,name=="log_F")$value
+Ft0std        <- subset(std3,name=="log_F")$std
+BDo0    <- rep3$BDo
+BRMS0   <- BDo*0.4
+FRMS0   <- rep_pbr3$`F(%SSBo)`[2,]
 
-# declare a vector of values
-values <- c("1_Sobreexplotación","2_Sobreexplotación","3_Subexplotación","4_Sobrepesca")
-# create a data frame containing values and ids
-values.df <- data.frame(value = values, id = c(1, 2, 3, 4))
-# create the x and y vectors containing the coordinates of each polygon in the correct order
-x.coords <- unlist(lapply(1:length(x.bottom.left), function(i) {
-    c(x.bottom.left[i], x.bottom.right[i], x.top.right[i], x.top.left[i])
-}))
-y.coords <- unlist(lapply(1:length(y.bottom.left), function(i) {
-    c(y.bottom.left[i], y.bottom.right[i], y.top.right[i], y.top.left[i])
-}))
-# create a coordinates data frame
-coords.df <- data.frame(id = rep(c(1, 2, 3, 4), each = 4), x = x.coords, y = y.coords)
-# merge the data frames
-data.df <- merge(values.df, coords.df, by = c("id"))
+DiagramaFase(name0,FRMS0,BRMS0,SSBt0,SSBt0std,Ft0,Ft0std,years0,col_lastyear="blue",ylims=8,xlims=3)
 
-
-
-# plot
-ggplot() + 
-  geom_polygon(data = data.df, aes(x = x, y = y, fill = factor(value), group = id,alpha = 0.9)) +
-scale_fill_grey(start=0.4, end=0.9) +
-geom_hline(yintercept = 1) + geom_vline(xintercept = c(0.5,1),colour=c(2,1)) +
-annotate("text", x=c(0.5,1,3.07), y=c(10.07,10.07,1.07),
-              label=c(expression("BD"[LIM]),expression("BD"[RMS]),expression("F"[RMS]))) +
-  geom_path(aes(x=bd_bdrms,y=f_frms)) +
-  geom_point(aes(x=bd_bdrms,y=f_frms),shape = 21, colour = "black", fill = "white", size = 2.5, stroke = 1)+
-  geom_point(aes(x=bd_bdrms[c(nyears,1)],y=f_frms[c(nyears,1)]),shape =c(21,21), colour = c("blue","green"), fill =c("blue4","green4"), size =c(4,4), stroke =c(1,1)) +
-   geom_text(aes(x=bd_bdrms,y=f_frms,label=years),angle = 45,nudge_y = 0.15,size = 3) +
-labs(x = expression("BD/BD"[RMS]), y = expression("F/F"[RMS]),fill='Estados de explotación') +
-   theme_bw(base_size=15) +
-  ggtitle(Zona)
 
 ```
 
