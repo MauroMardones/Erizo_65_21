@@ -179,13 +179,13 @@
  1960 
 
 # Fase_q 
- 2 
+ 3 
 
 # Fase_hiperestabilidad 
  -3 
 
 # Fase_selectividad 
- 2 
+ 4 
 
 # Opt_seldomo 
  -3 
@@ -200,7 +200,7 @@
  2 
 
 # log_priorRo 
- 3.4 
+ 4.8 
 
 # opt_Ro 
  -1 
