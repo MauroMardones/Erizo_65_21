@@ -2,9 +2,9 @@
 
 ------------------------------------------------------------------------
 
-# PBRs\_Erizo
+# MODELO DE EVALUACIÓN DE STOCK DE ERIZO
 
-Este repositorio contiene los análisis realizados para el cálculo de PBRs para las unidades de stock del Erizo.
+Este repositorio contiene los análisis realizados para la evaluación de stock de Erizo  para las tres unidades de stock (Zona X Norte, Zona X Sur y Zona XI) 
 
 **Descripción del contenido de la carpeta "codigos\_admb"**
 
@@ -23,26 +23,44 @@ Los principales datos que ingresan al modelo corresponden a los desembarques, CP
 1.  **codigos\_admb**
 
 -   código fuente (.tpl)
-
 -   datos y controles (.dat)
 
-2.  **funciones**
+- **MODELO BASE**
+  * MAETXN
+  * MAETXS
+  * MAETXI
+  
+- **MODELO ALTERNATIVO**
+  * MAETXNa
+  * MAETXSa
+  * MAETXIa
+  
+2.  **FUNCIONES**
 
--   Fn\_Retrospectivo.R = Retrospectivo (genera la carpeta con archivos admb)
+-   **Fn_DiagramaFase.R** = genera figura de diagrama de fase con banda de plenaexplotación
+-   **Fn_Frms.R** = corre código de ADMB que estima los puntos biológicos de referencia, principalmente Frms (archivos de guardan en carpeta llamada "PBR_Analisys")
+-   **Fn_MortalidadNatural.R** = corre los escenarios de mortalidad natural (guarda archivos .rep, .dat y .std en carpeta llamada "MortalidadNatural_XN","MortalidadNatural_XS","MortalidadNatural_XI", para caso base)
+-   **Fn_Rango_Loo.R** = corre los escenarios de Loo (guarda archivos .rep, .dat y .std en carpeta llamada "RangoLoo_XN","RangoLoo_XS","RangoLoo_XI", para caso base) 
+-   **Fn\_Retrospectivo.R** = Corre escenarios de retrospectivo (genera la carpeta con archivos .rep, .dat y .std en carpeta llamada "RetrospectivoXN","RetrospectivoXS","RetrospectivoXI", para caso base)
+-   **Fn_Verosimilitud.R** = Corre escenarios para perfil de verosimilitud (genera la carpeta con archivos .rep, .dat y .std en carpeta llamada "VerosimilitudXN","VerosimilitudXS","VerosimilitudXI", para caso base)
+-   **functions.R** = lisread (función que lee archivo ".dat") y reptoRlist (función que lee archivo ".rep")
+-   **removefile.R** = remueve archivos no deseados al correr códigos de ADMB
 
--   functions.R = lisread (función que lee archivo ".dat") y reptoRlist (función que lee archivo ".rep")
+3.  **FIGURAS**
+
+-  Carpeta **Figuras** = contiene las figuras generadas por archivo "Informe_Estatus_Erizo_65_21.Rmd"
+-  Carpeta **Figuras_Diagnostico** = contiene las figuras generadas por archivo "Figuras_y_Tablas_Erizo2022.Rmd" y "Figuras_y_Tablas_Erizo2022_alternativo.Rmd"
 
 **Códigos en Rmarkdown**
 
--   Informe\_Estatus\_Erizo\_word.Rmd = corresponde al informe de estatus del las tres unidades de stock del erizo que debe ser entregado entre diciembre y enero.
+-   **"Informe\_Estatus\_Erizo\_word.Rmd"** = corresponde al informe de estatus del las tres unidades de stock del erizo que debe ser entregado entre diciembre y enero. (generado el 2020)
 
--   Erizo.Rmd = contendrá los análisis exploratorios y cálculo de PBRs
+-   **"Figuras_y_Tablas_Erizo2022.Rmd"** = genera figuras y tablas de modelo base
 
--   
+-   **"Figuras_y_Tablas_Erizo2022_alternativo.Rmd"** = genera figuras y tablas de modelo alternativo
 
 **Archivos:**
 
--   Informe\_Estatus\_Erizo\_word.docx = es la salida del código .Rmd con el mismo nombre
 
 -   TemplateWord\_Erizo.docx = es utilizado en el código "Informe\_Estatus\_Erizo\_word.Rmd" para darle el formato deseado (tipo de letra, títulos, etc).
 
