@@ -242,25 +242,25 @@ Verosimilitud("MAETXI",dir.0,dir.1,"/VerosimilitudXI",logRo,priorRo)
 
 ```{r MortalidadNaturalXN, echo=F, warning=F,eval=F,include=F}
 source(paste(dir.fun,"Fn_MortalidadNatural.R",sep=""))
-rango_M   <-seq(0.15, 0.25, 0.01)
+rango_M   <-c(0.2, 0.21, 0.22, 0.28)
 MortalidadNatural("MAETXN",dir.0,dir.1,"/MortalidadNatural_XN",rango_M) 
 ```
 
 ```{r MortalidadNaturalXS, echo=F, warning=F,eval=F,include=F}
 source(paste(dir.fun,"Fn_MortalidadNatural.R",sep=""))
-rango_M   <-seq(0.22, 0.32, 0.01)
+rango_M   <-c(0.2, 0.21, 0.22, 0.28)
 MortalidadNatural("MAETXS",dir.0,dir.1,"/MortalidadNatural_XS",rango_M) 
 ```
 
 ```{r MortalidadNaturalXI, echo=F, warning=F,eval=F,include=F}
 source(paste(dir.fun,"Fn_MortalidadNatural.R",sep=""))
-rango_M   <-seq(0.15, 0.25, 0.01)
+rango_M   <-c(0.2, 0.21, 0.22, 0.28)
 MortalidadNatural("MAETXI",dir.0,dir.1,"/MortalidadNatural_XI",rango_M) 
 ```
 
 ```{r Rango_Loo_XN, echo=F, warning=F,eval=F,include=F}
 source(paste(dir.fun,"Fn_Rango_Loo.R",sep=""))
-rango_Loo   <-seq(128, 136, 0.5)
+rango_Loo   <-seq(116, 128, 0.5)
 
 Rango_Loo("MAETXN",dir.0,dir.1,"/RangoLoo_XN",rango_Loo) 
 ```
@@ -395,7 +395,7 @@ Dat$sel_f <- rep3$Sel_f
 
 # 1. Erizo Zona X Norte
 
-## 1.1. Ajustes y residuos
+## 1.1. Ajustes y residuos- Modelo base
 
 ```{r Dat_Ajustes_indices, echo=FALSE, message=FALSE, warning=FALSE, include=T}
 
@@ -425,48 +425,7 @@ predXN               <- data.frame(ind_predXN) %>%
                         melt(id.var=c('yrs', 'Asesoria'))
 
 baseXN <- data.frame(rbind(indXN, predXN))  
-######################################################
-# Erizo X Sur
-######################################################
-ind_obsXS           <- cbind(rep2$CPUE_obs, 
-                             rep2$Desemb_obs); 
-ind_obsXS[ind_obsXS==0] <- NA
-colnames(ind_obsXS) <- c('CPUE', 'Desembarques') 
-indXS               <- data.frame(ind_obsXS) %>%
-                        mutate(Asesoria='observado') %>% 
-                        mutate (yrs= yrs) %>% 
-                        melt(id.var=c('yrs', 'Asesoria'))  
 
-ind_predXS           <- cbind(c(rep2$CPUE_pred), 
-                              c(rep2$Desemb_pred)) 
-colnames(ind_predXS) <- c('CPUE', 'Desembarques') 
-predXS               <- data.frame(ind_predXS) %>% 
-                        mutate (Asesoria='Índices') %>% 
-                        mutate (yrs= yrs)  %>% 
-                        melt(id.var=c('yrs', 'Asesoria'))
-
-baseXS <- data.frame(rbind(indXS, predXS))  
-######################################################
-# Erizo XI
-######################################################
-ind_obsXI           <- cbind(rep3$CPUE_obs,
-                             rep3$Desemb_obs); 
-ind_obsXI[ind_obsXI==0] <- NA
-colnames(ind_obsXI) <- c('CPUE', 'Desembarques') 
-indXI               <- data.frame(ind_obsXI) %>%
-                        mutate(Asesoria='observado') %>% 
-                        mutate (yrs= yrs) %>%
-                        melt(id.var=c('yrs', 'Asesoria'))  
-
-ind_predXI           <- cbind(c(rep3$CPUE_pred), 
-                              c(rep3$Desemb_pred)) 
-colnames(ind_predXI) <- c('CPUE', 'Desembarques') 
-predXI               <- data.frame(ind_predXI) %>% 
-                        mutate (Asesoria='Índices') %>% 
-                        mutate (yrs= yrs)  %>% 
-                        melt(id.var=c('yrs', 'Asesoria'))
-
-baseXI <- data.frame(rbind(indXI, predXI))  
 
 ```
 
@@ -583,197 +542,6 @@ r1.1 + r2.2 + r4.4
 
 ```
 
-\pagebreak
-
-```{r Dat_Ajustes_indicesMalt, echo=FALSE, message=FALSE, warning=FALSE, include=T}
-
-yrs   <- rep1a$years
-nyrs  <- length(yrs)
-lasty <- yrs[nyrs]
-cvcpue   <-0.20
-cvdes   <-0.05
-######################################################
-# Erizo X Norte
-######################################################
-ind_obsXN               <- cbind(rep1a$CPUE_obs, 
-                                 rep1a$Desemb_obs); 
-ind_obsXN[ind_obsXN==0] <- NA
-colnames(ind_obsXN)     <- c('Biomasa', 'Desembarques') 
-
-indXN                   <- data.frame(ind_obsXN) %>% 
-                            mutate(Asesoria='observado') %>% 
-                            mutate (yrs= yrs) %>% 
-                            melt(id.var=c('yrs', 'Asesoria'))  
-
-ind_predXN           <- cbind(c(rep1a$CPUE_pred), 
-                              c(rep1a$Desemb_pred)) 
-colnames(ind_predXN) <- c('Biomasa', 'Desembarques') 
-
-predXN               <- data.frame(ind_predXN) %>% 
-                        mutate (Asesoria='Índices') %>% 
-                        mutate (yrs= yrs)  %>% 
-                        melt(id.var=c('yrs', 'Asesoria'))
-
-baseXN <- data.frame(rbind(indXN, predXN))  
-######################################################
-# Erizo X Sur
-######################################################
-ind_obsXS           <- cbind(rep2a$CPUE_obs, 
-                             rep2a$Desemb_obs); 
-ind_obsXS[ind_obsXS==0] <- NA
-colnames(ind_obsXS) <- c('Biomasa', 'Desembarques') 
-indXS               <- data.frame(ind_obsXS) %>% 
-                        mutate(Asesoria='observado') %>% 
-                        mutate (yrs= yrs) %>% 
-                        melt(id.var=c('yrs', 'Asesoria'))  
-
-ind_predXS           <- cbind(c(rep2a$CPUE_pred), 
-                              c(rep2a$Desemb_pred)) 
-colnames(ind_predXS) <- c('Biomasa', 'Desembarques') 
-
-predXS               <- data.frame(ind_predXS) %>% 
-                        mutate (Asesoria='Índices') %>% 
-                        mutate (yrs= yrs)  %>% 
-                        melt(id.var=c('yrs', 'Asesoria'))
-
-baseXS <- data.frame(rbind(indXS, predXS))  
-######################################################
-# Erizo XI
-######################################################
-ind_obsXI           <- cbind(rep3a$CPUE_obs, 
-                             rep3a$Desemb_obs); 
-ind_obsXI[ind_obsXI==0] <- NA
-colnames(ind_obsXI) <- c('Biomasa', 'Desembarques') 
-
-indXI               <- data.frame(ind_obsXI) %>% 
-                        mutate(Asesoria='observado') %>% 
-                        mutate (yrs= yrs) %>% 
-                        melt(id.var=c('yrs', 'Asesoria'))  
-
-ind_predXI           <- cbind(c(rep3a$CPUE_pred), 
-                              c(rep3a$Desemb_pred)) 
-colnames(ind_predXI) <- c('Biomasa', 'Desembarques') 
-
-predXI               <- data.frame(ind_predXI) %>% 
-                        mutate (Asesoria='Índices') %>% 
-                        mutate (yrs= yrs)  %>% 
-                        melt(id.var=c('yrs', 'Asesoria'))
-
-baseXI <- data.frame(rbind(indXI, predXI))  
-
-```
-
-```{r  Fig_ajustesIndicesMalt_XN, echo=FALSE,message=FALSE, warning=FALSE, fig.align="center", fig.height=5, fig.width=5,fig.path=dir.Fig,  dev=fig, include=T, fig.cap="Modelo alternativo. Ajuste del modelo a la información de Biomasa, desembarque para el erizo de la zona X Norte. Los puntos representan a las observaciones junto a sus niveles de incertidumbre. La línea negra sólida muestra el valor estimado por el modelo"}
-
-cpueXN <- ggplot(baseXN %>% filter(Asesoria!='observado', variable=='Biomasa'), 
-       aes(yrs,value)) + 
-       geom_line(aes(colour=Asesoria), size=0.8) +
-       scale_colour_manual(values=c('black')) +
-       geom_point(data = baseXN %>% filter(Asesoria=='observado', variable=='Biomasa'),
-       aes(yrs,value), shape = 19, colour = 'gray30') +
-       geom_errorbar(data = baseXN %>% filter(Asesoria=='observado', variable=='Biomasa'),
-       aes(ymin = value*exp(-1.96*cvcpue), ymax = value*exp(1.96*cvcpue)), color = 'gray30') +
-       scale_x_continuous(breaks = seq(from = 1960, to = 2020, by = 5)) +
-       labs(x = '', y = 'toneladas') +
-       theme_bw(base_size=9) + 
-       ggtitle('Biomasa zona X Norte - Modelo alternativo')+
-       theme(plot.title = element_text(hjust = 0.5),legend.position="none")
-
-desXN <- ggplot(baseXN %>% filter(Asesoria!='observado', variable=='Desembarques'), 
-       aes(yrs,value)) + 
-       geom_line(aes(colour=Asesoria), size=0.8) +
-       scale_colour_manual(values=c('black')) +
-       geom_point(data = baseXN %>% filter(Asesoria=='observado', variable=='Desembarques'),
-       aes(yrs,value), shape = 19, colour = 'gray30') +
-       geom_errorbar(data = baseXN %>% filter(Asesoria=='observado', variable=='Desembarques'),
-       aes(ymin = value*exp(-1.96*cvcpue), ymax = value*exp(1.96*cvcpue)), color = 'gray30') +
-       scale_x_continuous(breaks = seq(from = 1960, to = 2020, by = 5)) +
-       labs(x = '', y = 'Toneladas') +
-       theme_bw(base_size=9) + 
-       ggtitle('Desembarques zona X Norte - Modelo alternativo')+
-       theme(plot.title = element_text(hjust = 0.5),legend.position="none")
-
-cpueXN/desXN + plot_layout(guides="collect")
-
-```
-
-\pagebreak
-
-
-```{r Fig_residuosIndicesMalt_XN,warning=F, include=T, message=F, echo=F,fig.height=5,fig.width=7,fig.align="center",fig.path=dir.Fig,dev=fig, fig.cap="Modelo alternativo. Residuos de la CPUE y desembarques de erizo de la zona X Norte"}
-
-
-yrs      <- rep1a$years
-ind_obs  <- cbind(rep1a$CPUE_obs,
-                  rep1a$Desemb_obs); 
-
-ind_obs[ind_obs==0] <- NA
-colnames(ind_obs) <- c('Biomasa', 
-                       'Desembarques') 
-
-ind_sept <- cbind(c(rep1a$CPUE_pred), 
-                  c(rep1a$Desemb_pred))
-colnames(ind_sept) <- c('Biomasa', 
-                       'Desembarques') 
-
-ind     <- data.frame(ind_obs) %>% 
-           mutate(Asesoría='observado') %>% 
-           mutate (yrs= yrs) %>% 
-           melt(id.var=c('yrs', 'Asesoría'))  
-
-sept    <- data.frame(ind_sept) %>% 
-           mutate (Asesoría='base') %>%
-           mutate (yrs= yrs)  %>% 
-           melt(id.var=c('yrs', 'Asesoría'))
-
-base1 <- data.frame(rbind(ind, sept))  
-
-
-Res_matt <- data.frame(log(ind_obs) - log(ind_sept)) %>% 
-            mutate(yrs = yrs) %>% 
-            mutate(Asesoría = 'base')
-
-Res      <- rbind(Res_matt) %>%
-            melt(id.vars= c('yrs','Asesoría'))
-pred     <- base1 %>% 
-            filter(Asesoría!='observado') %>% 
-            mutate (pred = log(value))
-
-predm    <- pred$pred
-Res2     <- cbind(Res,predm)
-
-###################################################################################################
-
-r1.1  <-ggplot(filter(Res, Asesoría=='base'), aes(yrs,value)) + 
-        geom_bar(stat='identity', position='dodge') +
-        geom_hline(yintercept = 0) + 
-        facet_wrap(. ~ variable, ncol = 1) + 
-        labs(x= 'Año', y = 'Residuales (escala log)') +
-        theme_bw(base_size=9)
-
-r2.2  <-ggplot(filter(Res, Asesoría=='base'), aes(predm,value)) + 
-        geom_point(size = 1.5) + 
-        geom_hline(yintercept = 0) + 
-        facet_wrap(. ~ variable, ncol = 1) +
-        labs(x= 'Predicho (log)', y = 'Residuales') + 
-        theme_bw(base_size=8)
-
-r3.3 <- ggplot(filter(Res, Asesoría=='base'), aes(value)) + 
-        geom_histogram(fill='white', position  = 'dodge') +
-        facet_wrap(. ~ variable, ncol = 1) + 
-        labs(x= 'Residuales', y ='Histograma de Residuos (Frecuencia)') +
-        theme_bw(base_size=9)
-
-r4.4 <- ggplot(filter(Res, Asesoría=='base'), aes(sample = value)) + 
-        stat_qq() + 
-        stat_qq_line() + 
-        facet_wrap(. ~ variable, ncol = 1) +
-        labs(x= 'Sample Quantiles', y ='Theoretical') + 
-        theme_bw(base_size=9)
-
-r1.1 + r2.2 + r4.4
-
-```
 
 \pagebreak
 
@@ -849,84 +617,10 @@ box()
 
 ```
 
-\pagebreak
-
-
-```{r Fig_ajustesCompFMalt_XN,warning=F, include=T, message=F, echo=FALSE,fig.height=6,fig.width=7,fig.align="center",fig.path=dir.Fig,dev=fig, fig.cap="Modelo alternativo. Ajuste del modelo a las estructuras de talla de las capturas de erizo zona X Norte. Las barras representan las proporciones de capturas observadas y las líneas, el ajuste del modelo. El modelo no ajusta para datos previos al año 1996."}
-
-age  <-rep1a$Tallas                                          
-nage<-length(age)   
-
-etcf1_obs <- data.frame(rep1a$pobs)
-etcf1_pre <- rbind(rep1a$ppred) 
-
-yearc1   <- rep1a$years
-nyearc1  <- length(yearc1)  
-
- obs  <- as.data.frame(etcf1_obs) %>% mutate(year=yearc1) %>% melt(id.vars='year') %>%
-              mutate(edad = rep(age, each=nyearc1)) %>% mutate(type='obs')
- 
- pred_sep <- as.data.frame(etcf1_pre) %>% mutate(year=yearc1) %>% melt(id.vars='year') %>%
-              mutate(edad = rep(age, each=nyearc1)) %>% mutate(type='')
- 
-  mat  <- rbind(obs,pred_sep)
- 
-  fig1 <- ggplot(filter(mat, type=='obs')) + 
-          geom_bar(aes(x = edad, y = value), stat="identity", fill='gray66', color = 'gray78') + 
-          facet_wrap(~year, dir = 'v', as.table = TRUE) +
-          labs(x = 'Longitud', y = 'Proporción') +
-          geom_line(data = mat %>% filter(type != 'obs'), aes(x = edad, y = value, colour=type)) +
-          scale_colour_manual(values=c('red'),name="") +
-          theme(panel.background = element_rect(fill ="gray99")) + 
-          theme(panel.grid=element_line(color=NA)) +
-          ggtitle("FLOTA Zona X Norte - Malternativo") + 
-          theme(plot.title = element_text(size = 10)) +
-          theme(plot.title = element_text(size = 6),axis.text = element_text(size = 6),
-                strip.text.x = element_text(size=6),axis.title = element_text(size =6),legend.position="none")
-  fig1
-
-```
 
 \pagebreak
 
-
-```{r Fig_residuosCompMalt_XN,warning=F, include=T, message=F, echo=FALSE,fig.height=6,fig.width=5,fig.align="center",fig.path=dir.Fig,dev=fig, fig.cap="Modelo alternativo. Residuos de la proporción de tallas de erizo de la zona X Norte"}
-
-ppredF <-rep1$ppred[37:61,]
-anos   <-yrs[37:61]
-obsF   <-rep1$pobs[37:61,]
-preF   <-ppredF
-
-resF <-obsF-preF
-rng <-range(resF,na.rm=T)
-dd  <-dim(resF)
-est <-matrix(NA,nrow=dd[1],ncol=dd[2])
-
-for(j in 1:dd[1]){for(k in 1:dd[2]){val<-resF[j,k]
-if(val>0){est[j,k]<-val/rng[2]}
-else{est[j,k]<-val/rng[1]*-1}}}
-
-par(mfrow=c(1,1),mar=c(5.4,6.7,2,1),cex.axis=0.8,cex.lab=0.8)
-fig1<-image(age,anos,t(est),col=0,yaxt="n",xlab="",ylab="")
-ee  <-dim(est)
-for(n in 1:ee[1]){for(m in 1:ee[2]){vol<-est[n,m]
-if(is.na(vol)==FALSE){
-	if(vol>0){points(age[m],anos[n],pch=19,cex=1.82*sqrt(vol),col=1)}
-	if(vol<0){points(age[m],anos[n],pch=1,cex=1.82*sqrt(vol*-1),col=1)}
-}}}
-
-mtext("Residuos Flota zona X norte - Malternativo",side=3,cex=1)
-mtext("Edades",side=1,line=3.2,cex=1);posi<-seq(1,57,by=4)
-axis(2,at=anos,labels=anos,las=2)
-mtext("Años",side=2,line=4.7,cex=1)
-mtext("a)",side=3,line=0.25,adj=-0.15,cex=1)
-box()
-
-```
-
-\pagebreak
-
-## 1.2. Análisis retrospectivo de erizo zona X norte
+## 1.2. Análisis retrospectivo de erizo zona X norte - Modelo base
 
 ```{r VariablesXN_std, echo=F,message=FALSE, warning=FALSE, include=T}
 
@@ -1108,7 +802,7 @@ Rt/BD/Ft |Rtrel/BDrel/Ftrel
 
 \pagebreak
 
-## 1.3. Perfil de verosimilitud de erizo zona X norte
+## 1.3. Perfil de verosimilitud de erizo zona X norte - Modelo base
 
 
 ```{r Fig_VerosimilitudXN,echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Perfil de verosimilitud erizo zona X norte", fig.height=5, fig.width=7}
@@ -1320,7 +1014,7 @@ BT/BD/Ft
 
 \pagebreak
 
-## 1.6. Variables de estado
+## 1.6. Variables de estado  Erizo Zona X Norte - modelo base
 
 ```{r Fig_VarpoblXN, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Variables de biomasas totales, desovantes, reclutamientos y desvíos estimadas por el modelo para el erizo de la zona X Norte período 1960 - 2019.", fig.height=6, fig.width=8}
 
@@ -1388,7 +1082,7 @@ par(mfrow=c(1,1),mar=c(4,4,1,1))
 
 \pagebreak
 
-## 1.7. Puntos Biológicos de Referencia
+## 1.7. Puntos Biológicos de Referencia Erizo X Norte - Modelo base
 
 ```{r Fig_PBRsXN, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Puntos Biológicos de referencia de Erizo zona X Norte", fig.height=4.5, fig.width=4.5,eval=T}
 
@@ -1430,7 +1124,7 @@ Ft <- ggplot(VarPob) +
 
 \pagebreak
 
-## 1.8. Estatus del erizo de la zona norte de la Región de Los Lagos
+## 1.8. Estatus del erizo de la zona norte de la Región de Los Lagos - Modelo base
 
 ```{r Fig_DiagramaFaseXN, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Diagrama de fase propuesto para erizo zona X Norte",fig.height=4.5, fig.width=4.5,eval=T}
 source(paste(dir.fun,"Fn_DiagramaFase.R",sep=""))
@@ -1457,10 +1151,32 @@ DiagramaFase(name0,FRMS0,BRMS0,SSBt0,SSBt0std,Ft0,Ft0std,years0,col_lastyear="bl
 
 # 2. Erizo zona X Sur 
 
-## 2.1. Ajustes y residuos
+## 2.1. Ajustes y residuos - modelo base
 
 ```{r Fig_ajustesIndices_XS, echo=FALSE,message=FALSE, warning=FALSE, fig.align="center",fig.path=dir.Fig, fig.height=5,  fig.width=5, dev=fig, include=T, fig.cap="Modelo base. Ajuste del modelo a la información de CPUE, desembarque para el erizo de la zona X Sur. Los puntos representan a las observaciones junto a sus niveles de incertidumbre. La línea negra sólida muestra el valor estimado por el modelo"}
 
+######################################################
+# Erizo X Sur
+######################################################
+ind_obsXS           <- cbind(rep2$CPUE_obs, 
+                             rep2$Desemb_obs); 
+ind_obsXS[ind_obsXS==0] <- NA
+colnames(ind_obsXS) <- c('CPUE', 'Desembarques') 
+indXS               <- data.frame(ind_obsXS) %>%
+                        mutate(Asesoria='observado') %>% 
+                        mutate (yrs= yrs) %>% 
+                        melt(id.var=c('yrs', 'Asesoria'))  
+
+ind_predXS           <- cbind(c(rep2$CPUE_pred), 
+                              c(rep2$Desemb_pred)) 
+colnames(ind_predXS) <- c('CPUE', 'Desembarques') 
+predXS               <- data.frame(ind_predXS) %>% 
+                        mutate (Asesoria='Índices') %>% 
+                        mutate (yrs= yrs)  %>% 
+                        melt(id.var=c('yrs', 'Asesoria'))
+
+baseXS <- data.frame(rbind(indXS, predXS))  
+######################################################
 cpueXS <- ggplot(baseXS %>% filter(Asesoria!='observado', variable=='CPUE'), 
        aes(yrs,value)) + 
        geom_line(aes(colour=Asesoria), size=0.8) +
@@ -1923,7 +1639,7 @@ fig1
 
 \pagebreak
 
-## 2.4. Análisis de sensibilidad a la mortalidad natural 
+## 2.4. Análisis de sensibilidad a la mortalidad natural  - modelo base
 
 
 ```{r Dat_SenMortalidadNatural_XS, echo=F, message=FALSE, warning=FALSE, include=T}
@@ -2003,7 +1719,7 @@ BT/BD/Ft
 
 \pagebreak
 
-## 2.5. Análisis de sensibilidad a la  Longitud asintótica
+## 2.5. Análisis de sensibilidad a la  Longitud asintótica - modelo base
 
 ```{r Dat_SenLoo_XS, echo=F, message=FALSE, warning=FALSE, include=T}
 dir<-paste(dir.0,"/RangoLoo_XS",sep="")
@@ -2082,7 +1798,7 @@ BT/BD/Ft
 
 \pagebreak
 
-## 2.6. Variables de estado de erizo Zona X sur.
+## 2.6. Variables de estado de erizo Zona X sur - modelo base
 
 ```{r Fig_VarpoblXS, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Variables poblacionales de Erizo zona X Sur", fig.path=dir.Fig,fig.height=6, fig.width=8}
 
@@ -2148,7 +1864,7 @@ par(mfrow=c(1,1),mar=c(4,4,1,1))
 
 \pagebreak
 
-## 2.7. Puntos Biológicos de Referencia
+## 2.7. Puntos Biológicos de Referencia - modelo base
 
 ```{r Fig_PBRsXS, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Puntos Biológicos de referencia de Erizo zona X Sur", fig.height=4.5, fig.width=4.5,eval=T}
 
@@ -2193,7 +1909,7 @@ Ft <- ggplot(VarPob) +
 
 \pagebreak
 
-## 2.8. Estatus del erizo de la zona sur de la Región de Los Lagos
+## 2.8. Estatus del erizo de la zona sur de la Región de Los Lagos - modelo base
 
 ```{r Fig_DiagramaFaseXS, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Diagrama de fase propuesto para erizo zona X Sur",fig.height=4.5, fig.width=4.5,eval=T}
 
@@ -2221,10 +1937,33 @@ DiagramaFase(name0,FRMS0,BRMS0,SSBt0,SSBt0std,Ft0,Ft0std,years0,col_lastyear="bl
 
 # 3. Erizo zona XI
 
-## 3.1. Ajustes y residuos de erizo zona XI
+## 3.1. Ajustes y residuos de erizo zona XI - modelo base
 
 ```{r Fig_ajustesIndices_XI, echo=FALSE,message=FALSE, warning=FALSE, fig.align="center", fig.height=6, fig.path=dir.Fig, fig.width=6, dev=fig, include=T, fig.cap="Modelo base. Ajuste del modelo a la información de CPUE, desembarque para el erizo de la zona X Sur. Los puntos representan a las observaciones junto a sus niveles de incertidumbre. La línea negra sólida muestra el valor estimado por el modelo"}
 
+######################################################
+# Erizo XI
+######################################################
+ind_obsXI           <- cbind(rep3$CPUE_obs,
+                             rep3$Desemb_obs); 
+ind_obsXI[ind_obsXI==0] <- NA
+colnames(ind_obsXI) <- c('CPUE', 'Desembarques') 
+indXI               <- data.frame(ind_obsXI) %>%
+                        mutate(Asesoria='observado') %>% 
+                        mutate (yrs= yrs) %>%
+                        melt(id.var=c('yrs', 'Asesoria'))  
+
+ind_predXI           <- cbind(c(rep3$CPUE_pred), 
+                              c(rep3$Desemb_pred)) 
+colnames(ind_predXI) <- c('CPUE', 'Desembarques') 
+predXI               <- data.frame(ind_predXI) %>% 
+                        mutate (Asesoria='Índices') %>% 
+                        mutate (yrs= yrs)  %>% 
+                        melt(id.var=c('yrs', 'Asesoria'))
+
+baseXI <- data.frame(rbind(indXI, predXI))  
+
+######################################################
 cpueXI <- ggplot(baseXI %>% filter(Asesoria!='observado', variable=='CPUE'), 
        aes(yrs,value)) + 
        geom_line(aes(colour=Asesoria), size=0.8) +
@@ -2407,7 +2146,7 @@ box()
 
 \pagebreak
 
-## 3.2. Análisis retrospectivo de erizo zona XI
+## 3.2. Análisis retrospectivo de erizo zona XI - modelo base
 
 ```{r VariablesXI_std, echo=F,message=FALSE, warning=FALSE, include=T}
 
@@ -2626,7 +2365,7 @@ Rt/BD/Ft |Rtrel/BDrel/Ftrel
 
 \pagebreak
 
-## 3.3. Perfil de verosimilitud de erizo zona XI
+## 3.3. Perfil de verosimilitud de erizo zona XI - modelo base
 
 ```{r Fig_VerosimilitudXI,echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Perfil de verosimilitud erizo zona XI", fig.height=5, fig.width=7}
 
@@ -2679,7 +2418,7 @@ fig1
 
 \pagebreak
 
-## 3.4. Análisis de sensibilidad a la mortalidad natural de erizo zona XI
+## 3.4. Análisis de sensibilidad a la mortalidad natural de erizo zona XI - modelo base
 
 
 ```{r Dat_SenMortalidadNatural_XI, echo=F, message=FALSE, warning=FALSE, include=T}
@@ -2758,7 +2497,7 @@ BT/BD/Ft
 
 \pagebreak
 
-## 3.5. Análisis de sensibilidad a la Longitud asintótica
+## 3.5. Análisis de sensibilidad a la Longitud asintótica - modelo base
 
 ```{r Dat_SenLoo_XI, echo=F, message=FALSE, warning=FALSE, include=T}
 dir<-paste(dir.0,"/RangoLoo_XI",sep="")
@@ -2836,7 +2575,7 @@ BT/BD/Ft
 
 \pagebreak
 
-## 3.6. Variables de estado de erizo zona XI
+## 3.6. Variables de estado de erizo zona XI - modelo base
 
 ```{r Fig_VarpoblXI, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Variables poblacionales de Erizo zona XI", fig.path=dir.Fig,fig.height=6, fig.width=8}
 
@@ -2902,7 +2641,7 @@ par(mfrow=c(1,1),mar=c(4,4,1,1))
 
 \pagebreak
 
-## 3.7. Puntos Biológicos de Referencia de erizo zona XI
+## 3.7. Puntos Biológicos de Referencia de erizo zona XI - Modelo base
 
 ```{r  Fig_PBRsXI, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Puntos Biológicos de referencia de Erizo zona XI", fig.height=4.5, fig.width=4.5,eval=T}
 
@@ -2946,7 +2685,7 @@ BD/Ft
 
 \pagebreak
 
-## 3.8. Estatus del erizo de la Región de Aysén
+## 3.8. Estatus del erizo de la Región de Aysén - Modelo base
 
 ```{r Fig_DiagramaFaseXI, echo=FALSE, message=FALSE, warning=FALSE, include=T, fig.align="center", fig.cap="Modelo base. Diagrama de fase propuesto para erizo zona XI",fig.height=4.5, fig.width=4.5,eval=T}
 
